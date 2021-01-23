@@ -6,4 +6,8 @@ public interface Observable {
     void deleteObserver(Observer observer);
 
     void notifyObserver(String message);
+
+    boolean availabilityOfObserver (String message, String login, String sender);
+
+
 }

@@ -1,5 +1,6 @@
 package ru.itsjava.dao;
 
+
 import ru.itsjava.domain.User;
 import ru.itsjava.services.Properties;
 
@@ -30,4 +31,32 @@ public class UserDaoImpl implements UserDao {
         }
         throw new NoSuchElementException("User not found");
     }
+
+    @Override
+    public User createUser(String name, String password) {
+        try (Connection connection = DriverManager.getConnection(URL, DB_LOGIN, DB_PASSWORD);
+             Statement statement = connection.createStatement()) {
+
+            statement.executeUpdate("insert into users (name, password) values " +
+                    "('"+name+"','"+password+"');");
+
+            return new User(name, password);
+
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        throw new NoSuchElementException("User not found");
+    }
+
+    @Override
+    public void deleteUser(String name) {
+        try (Connection connection = DriverManager.getConnection(URL, DB_LOGIN, DB_PASSWORD);
+             Statement statement = connection.createStatement()) {
+            statement.executeUpdate(" delete from users where name = '"+name+"';");
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
 }
